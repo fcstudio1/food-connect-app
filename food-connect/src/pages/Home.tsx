@@ -48,7 +48,6 @@ const formatTime = (hour: number) => {
 };
 
 const getPlaceStatus = (location: Location) => {
-  const now = new Date();
   const caTime = new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" });
   const caDate = new Date(caTime);
   
