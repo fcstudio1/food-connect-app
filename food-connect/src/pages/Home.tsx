@@ -4,6 +4,9 @@ import type { LatLngExpression } from "leaflet";
 import L from 'leaflet';
 import "leaflet/dist/leaflet.css";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+
 // --- UPDATED TYPES ---
 type Location = {
   _id: string; 
@@ -116,7 +119,7 @@ export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/locations")
+    fetch(`${API_BASE_URL}/api/locations`)
       .then((res) => res.json())
       .then((data) => setLocationsData(data))
       .catch((err) => console.log("Fetch error:", err));

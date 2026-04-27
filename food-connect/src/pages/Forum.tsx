@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { MessageCircle, User, Clock, X, Plus, ArrowBigUp, MessageSquare, Send } from "lucide-react";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 export default function ForumSection() {
   const [posts, setPosts] = useState<any[]>([]);
   const [newPost, setNewPost] = useState("");
@@ -26,7 +28,7 @@ export default function ForumSection() {
   });
 
   const fetchPosts = async () => {
-    const res = await fetch("http://localhost:5000/api/forum");
+    const res = await fetch(`${API_BASE_URL}/api/forum`);
     const data = await res.json();
     setPosts(data);
   };
@@ -35,7 +37,7 @@ export default function ForumSection() {
 
   const handlePost = async () => {
     if (!newPost.trim()) return;
-    await fetch("http://localhost:5000/api/forum", {
+    await fetch(`${API_BASE_URL}/api/forum`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content: newPost })
@@ -47,7 +49,7 @@ export default function ForumSection() {
   const toggleUpvote = async (id: number) => {
     const isUpvoted = userUpvotes.includes(id);
     const action = isUpvoted ? 'remove' : 'add';
-    await fetch(`http://localhost:5000/api/forum/${id}/upvote`, { 
+    await fetch(`${API_BASE_URL}/api/forum/${id}/upvote`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action })
@@ -60,7 +62,7 @@ export default function ForumSection() {
 
   const handleReply = async (id: number) => {
     if (!replyContent.trim()) return;
-    await fetch(`http://localhost:5000/api/forum/${id}/reply`, {
+    await fetch(`${API_BASE_URL}/api/forum/${id}/reply`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content: replyContent })
@@ -83,7 +85,7 @@ export default function ForumSection() {
       });
 
       // 2. Send to local backend
-      await fetch("http://localhost:5000/api/questionnaire", {
+      await fetch(`${API_BASE_URL}/api/questionnaire`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(feedback)
